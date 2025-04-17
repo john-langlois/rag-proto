@@ -6,7 +6,8 @@ create table documents (
   name text not null,
   storage_object_id uuid not null references storage.objects (id),
   created_by uuid not null references auth.users (id) default auth.uid(),
-  created_at timestamp with time zone not null default now()
+  created_at timestamp with time zone not null default now(),
+  file_type text
 );
 
 create view documents_with_storage_path
@@ -92,9 +93,24 @@ as $$
 declare
   document_id bigint;
   result int;
+  file_extension text;
+  determined_file_type text;
 begin
-  insert into documents (name, storage_object_id, created_by)
-    values (new.path_tokens[2], new.id, new.owner)
+  -- Extract file extension from the filename
+  file_extension := lower(substring(new.path_tokens[2] from '\.([^\.]+)$'));
+  
+  -- Determine file type based on extension
+  determined_file_type := case
+    when file_extension in ('md', 'markdown') then 'markdown'
+    when file_extension = 'pdf' then 'pdf'
+    when file_extension = 'docx' then 'docx'
+    when file_extension in ('xlsx', 'xls') then 'excel'
+    when file_extension = 'csv' then 'csv'
+    else 'unknown'
+  end;
+
+  insert into documents (name, storage_object_id, created_by, file_type)
+    values (new.path_tokens[2], new.id, new.owner, determined_file_type)
     returning id into document_id;
 
   select

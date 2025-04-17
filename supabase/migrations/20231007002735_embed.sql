@@ -26,7 +26,7 @@ as $$
 declare
   content_column text = TG_ARGV[0];
   embedding_column text = TG_ARGV[1];
-  batch_size int = case when array_length(TG_ARGV, 1) >= 3 then TG_ARGV[2]::int else 5 end;
+  batch_size int = case when array_length(TG_ARGV, 1) >= 3 then TG_ARGV[2]::int else 20 end;
   timeout_milliseconds int = case when array_length(TG_ARGV, 1) >= 4 then TG_ARGV[3]::int else 5 * 60 * 1000 end;
   batch_count int = ceiling((select count(*) from inserted) / batch_size::float);
 begin
@@ -57,4 +57,4 @@ create trigger embed_document_sections
   after insert on document_sections
   referencing new table as inserted
   for each statement
-  execute procedure private.embed(content, embedding);
+  execute procedure private.embed(content, embedding, 20);
