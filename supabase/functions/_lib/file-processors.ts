@@ -227,7 +227,7 @@ export function processExcel(
  */
 export function processCSV(
   content: string,
-  maxSectionLength = 2500
+  maxSectionLength = 750
 ): ProcessedContent {
   const sections: Section[] = [];
 

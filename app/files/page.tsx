@@ -12,6 +12,8 @@ import { Button } from "@/components/ui/button";
 
 export default function FilesPage() {
   const supabase = createClientComponentClient<Database>();
+  console.log(process.env.NEXT_PUBLIC_SUPABASE_URL);
+  console.log(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
   const router = useRouter();
 
   const { data: documents, refetch: refetchDocuments } = useQuery(

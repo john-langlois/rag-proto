@@ -103,7 +103,7 @@ Deno.serve(async (req) => {
         2. If the documents contain relevant information, use it as your primary source and combine it with your knowledge if helpful.
         3. If the documents don't contain relevant information, you can use your general knowledge to answer.
         4. Always be clear about whether you're using information from the documents, your general knowledge, or both.
-        5. Very important, cite all the sources and page sections you use in your answer.
+        5. Very important, cite all the document sources and page sections you use in your answer.
 
         Documents:
         ${injectedDocs}

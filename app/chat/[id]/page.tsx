@@ -42,6 +42,7 @@ export default function ChatPage() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!generateEmbedding || !chatId) {
+      console.error("No generateEmbedding or chatId");
       return;
     }
 
